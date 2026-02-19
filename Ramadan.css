@@ -26,7 +26,6 @@ body {
     z-index: -2;
 }
 
-
 .ramadan-moon {
     position: fixed;
     top: 60px;
@@ -57,7 +56,6 @@ body {
     border-radius: 50%;
 }
 
-
 .ramadan-moon .sparkles {
     position: absolute;
     top: 110%;
@@ -81,7 +79,6 @@ body {
     50% { transform: translateY(-10px); }
 }
 
-
 header {
     text-align: center;
     padding: 30px;
@@ -103,6 +100,7 @@ header {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
+    text-align: center; 
 }
 
 .card {
@@ -111,6 +109,7 @@ header {
     border-radius: 15px;
     margin-bottom: 20px;
     backdrop-filter: blur(10px);
+    text-align: center; 
 }
 
 .light-mode .card {
@@ -122,6 +121,7 @@ input, button {
     margin: 8px 5px;
     border-radius: 8px;
     border: none;
+    text-align: center; 
 }
 
 button {
@@ -178,4 +178,15 @@ footer {
     padding: 15px;
     background: var(--ramadan-gradient);
     margin-top: 40px;
+}
+
+.clock {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+    letter-spacing: 2px;
+}
+
+.light-mode .clock {
+    color: #333;
 }
