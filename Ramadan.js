@@ -1,4 +1,5 @@
 
+
 const ramadanTimings = [
 {day:1, sehri:"05:12 AM", iftar:"05:57 PM", date:"2026-02-19"},
 {day:2, sehri:"05:11 AM", iftar:"05:58 PM", date:"2026-02-20"},
@@ -33,7 +34,9 @@ const ramadanTimings = [
 ];
 
 
+
 const tableBody = document.getElementById("tableBody");
+
 ramadanTimings.forEach(item => {
     tableBody.innerHTML += `
         <tr>
@@ -46,67 +49,119 @@ ramadanTimings.forEach(item => {
 });
 
 
+
 const totalDays = 30;
+
 function updateProgress(selectedDay = 0){
-    const progressFill = document.getElementById("progressFill");
-    const ramadanDayText = document.getElementById("ramadanDayText");
-    const percentage = (selectedDay/totalDays)*100;
-    progressFill.style.width = percentage + "%";
-    ramadanDayText.innerText = `Day ${selectedDay} of ${totalDays}`;
+    const percentage = (selectedDay / totalDays) * 100;
+
+    document.getElementById("progressFill").style.width = percentage + "%";
+    document.getElementById("ramadanDayText").innerText =
+        `Day ${selectedDay} of ${totalDays}`;
     document.getElementById("rojaCount").innerText = selectedDay;
     document.getElementById("progressPrediction").innerText =
-        `Predicted completion: ${Math.min(100, (selectedDay/totalDays*100 + 2).toFixed(1))}%`;
+        `Predicted completion: ${percentage.toFixed(1)}%`;
 }
+
 
 
 function updateTimes(){
     const selectedDate = document.getElementById("date").value;
     const dayInfo = ramadanTimings.find(d => d.date === selectedDate);
+
     if(dayInfo){
         document.getElementById("sehri").innerText = dayInfo.sehri;
-        document.getElementById("iftar").innerText = dayInfo.iftar; 
+        document.getElementById("iftar").innerText = dayInfo.iftar;
         updateProgress(dayInfo.day);
-        startCountdown(dayInfo.iftar); 
+        startCountdown(dayInfo.iftar);
     }else{
         document.getElementById("sehri").innerText = "--:--";
         document.getElementById("iftar").innerText = "--:--";
         updateProgress(0);
-        document.getElementById("countdown").innerText = "Select a date to see countdown";
+        document.getElementById("countdown").innerText =
+            "Select a date to see countdown";
     }
 }
 
 
+function getDhakaTime() {
+    return new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" })
+    );
+}
+
+
+
+function updateClock(){
+    const now = getDhakaTime();
+
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2,'0');
+    const seconds = String(now.getSeconds()).padStart(2,'0');
+
+    let ampm = "AM";
+    if(hours >= 12) ampm = "PM";
+
+    hours = hours % 12;
+    if(hours === 0) hours = 12;
+
+    hours = String(hours).padStart(2,'0');
+
+    document.getElementById("realClock").innerText =
+        `${hours}:${minutes}:${seconds} ${ampm} (BD Time)`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+
+
 let countdownInterval;
+
 function startCountdown(iftarTime){
     clearInterval(countdownInterval);
+
     countdownInterval = setInterval(()=>{
-        const now = new Date();
+
+        const now = getDhakaTime();
         const today = now.toISOString().split('T')[0];
-      
+
         const [time, modifier] = iftarTime.split(" ");
         let [hours, minutes] = time.split(":").map(Number);
+
         if(modifier === "PM" && hours !== 12) hours += 12;
         if(modifier === "AM" && hours === 12) hours = 0;
-        const target = new Date(`${today}T${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:00`);
+
+        const target = new Date(
+            `${today}T${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:00`
+        );
+
         const diff = target - now;
         const countdown = document.getElementById("countdown");
-        if(diff>0){
-            const h=Math.floor(diff/1000/60/60);
-            const m=Math.floor((diff/1000/60)%60);
-            const s=Math.floor((diff/1000)%60);
+
+        if(diff > 0){
+            const h = Math.floor(diff/1000/60/60);
+            const m = Math.floor((diff/1000/60)%60);
+            const s = Math.floor((diff/1000)%60);
+
             countdown.innerText = `${h}h ${m}m ${s}s remaining`;
         }else{
             countdown.innerText = "Iftar Time! 🌙";
         }
-    },1000);
+
+    }, 1000);
 }
+
 
 
 const canvas = document.getElementById('starsCanvas');
 const ctx = canvas.getContext('2d');
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 let stars = [];
+
 for(let i=0;i<300;i++){
     stars.push({
         x: Math.random()*canvas.width,
@@ -115,26 +170,27 @@ for(let i=0;i<300;i++){
         d: Math.random()*2
     });
 }
+
 function drawStars(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = "white";
     ctx.beginPath();
-    for(let i=0;i<stars.length;i++){
-        let s = stars[i];
+
+    stars.forEach(s=>{
         ctx.moveTo(s.x, s.y);
         ctx.arc(s.x, s.y, s.r, 0, Math.PI*2, true);
-    }
+    });
+
     ctx.fill();
-    updateStars();
-}
-function updateStars(){
-    for(let i=0;i<stars.length;i++){
-        let s = stars[i];
+
+    stars.forEach(s=>{
         s.y += s.d*0.2;
-        if(s.y>canvas.height) s.y=0;
-    }
+        if(s.y > canvas.height) s.y = 0;
+    });
 }
+
 setInterval(drawStars, 50);
+
 
 
 function toggleMode(){
