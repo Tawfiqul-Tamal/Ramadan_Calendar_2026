@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ramadan Calendar 2026 (Dhaka)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Ramadan.css">
+</head>
+<body>
+
+
+<canvas id="starsCanvas"></canvas>
+
+
+<div class="ramadan-moon">
+    <div class="moon"></div>
+    <div class="sparkles"></div>
+</div>
+
+<header>
+    <h1>🌙 Ramadan Calendar 2026 (Dhaka)</h1>
+    <p class="subtitle">Auto Sehri & Iftar Timing Prediction</p>
+</header>
+
+<section class="description">
+    <h2>About This Project</h2>
+    <p>
+        Select a date to automatically see Sehri & Iftar timing according to the official Ramadan 2026 schedule in Dhaka. Track fasting days, countdown to Iftar, and visualize Ramadan progress.
+</section>
+
+<div class="container">
+
+  
+    <div class="mode-toggle">
+        <button onclick="toggleMode()">Toggle Dark / Light</button>
+    </div>
+
+
+    <div class="card progress-card">
+        <h3>🌙 Ramadan Progress</h3>
+        <p id="ramadanDayText">Day 0 of 30</p>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p id="progressPrediction"></p>
+    </div>
+
+   
+    <div class="card countdown-card">
+        <h3>⏳ Iftar Countdown</h3>
+        <p id="countdown">Select a date to see countdown</p>
+    </div>
+
+  
+    <div class="card">
+        <h3>Select Date</h3>
+        <input type="date" id="date" onchange="updateTimes()">
+        <p>Sehri: <span id="sehri">--:--</span></p>
+        <p>Iftar: <span id="iftar">--:--</span></p>
+    </div>
+
+    
+    <div class="card">
+        <h3>Ramadan Schedule</h3>
+        <p class="roja">Roja Completed: <span id="rojaCount">0</span> Days</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Date</th>
+                    <th>Sehri</th>
+                    <th>Iftar</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer>
+    Created by Md. Tawfiqul Islam Tamal | Department of Computer Science & Engineering | American International University-Bangladesh (AIUB)
+</footer>
+
+<script src="Ramadan.js"></script>
+</body>
+</html>
