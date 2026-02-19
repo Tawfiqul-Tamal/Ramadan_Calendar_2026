@@ -1,0 +1,181 @@
+:root {
+    --ramadan-gradient: linear-gradient(135deg, #FFD580, #FFB347);
+    --night-bg: linear-gradient(to right, #0a1a2b, #112f41, #1b3a5a);
+    --light-bg: #FFFFED;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--night-bg);
+    color: white;
+    transition: 0.4s;
+}
+
+.light-mode {
+    background: var(--light-bg);
+    color: #333;
+}
+
+#starsCanvas {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
+
+
+.ramadan-moon {
+    position: fixed;
+    top: 60px;
+    right: 100px;
+    width: 120px;
+    height: 120px;
+    z-index: -1;
+}
+
+.ramadan-moon .moon {
+    width: 100%;
+    height: 100%;
+    background: #FFD580;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    animation: floatMoon 6s ease-in-out infinite;
+}
+
+.ramadan-moon .moon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 40%;
+    width: 100%;
+    height: 100%;
+    background: var(--night-bg);
+    border-radius: 50%;
+}
+
+
+.ramadan-moon .sparkles {
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: -20px 0px white, 30px 10px white, 10px 20px white, -10px 30px white;
+    animation: fall 3s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0px); opacity:0.6; }
+    100% { transform: translateY(80px); opacity:0; }
+}
+
+@keyframes floatMoon {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+
+header {
+    text-align: center;
+    padding: 30px;
+    background: var(--ramadan-gradient);
+    color: white;
+}
+
+.subtitle {
+    font-style: italic;
+}
+
+.description {
+    text-align: center;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.light-mode .card {
+    background: #FFFFED;
+}
+
+input, button {
+    padding: 10px;
+    margin: 8px 5px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    background: var(--ramadan-gradient);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: var(--ramadan-gradient);
+    color: white;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--ramadan-gradient);
+    border-radius: 20px;
+    transition: width 1s ease-in-out;
+}
+
+.countdown-card {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: var(--ramadan-gradient);
+    margin-top: 40px;
+}
