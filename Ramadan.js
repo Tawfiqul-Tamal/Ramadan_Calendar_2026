@@ -1,5 +1,3 @@
-
-
 const ramadanTimings = [
 {day:1, sehri:"05:12 AM", iftar:"05:57 PM", date:"2026-02-19"},
 {day:2, sehri:"05:11 AM", iftar:"05:58 PM", date:"2026-02-20"},
@@ -33,8 +31,6 @@ const ramadanTimings = [
 {day:30, sehri:"04:47 AM", iftar:"06:10 PM", date:"2026-03-20"},
 ];
 
-
-
 const tableBody = document.getElementById("tableBody");
 
 ramadanTimings.forEach(item => {
@@ -48,22 +44,25 @@ ramadanTimings.forEach(item => {
     `;
 });
 
-
-
 const totalDays = 30;
 
 function updateProgress(selectedDay = 0){
     const percentage = (selectedDay / totalDays) * 100;
-
     document.getElementById("progressFill").style.width = percentage + "%";
-    document.getElementById("ramadanDayText").innerText =
-        `Day ${selectedDay} of ${totalDays}`;
+    document.getElementById("ramadanDayText").innerText = `Day ${selectedDay} of ${totalDays}`;
     document.getElementById("rojaCount").innerText = selectedDay;
-    document.getElementById("progressPrediction").innerText =
-        `Predicted completion: ${percentage.toFixed(1)}%`;
+    document.getElementById("progressPrediction").innerText = `Predicted completion: ${percentage.toFixed(1)}%`;
 }
 
-
+// Highlight selected row
+function highlightSelectedRow(selectedDate){
+    document.querySelectorAll("#tableBody tr").forEach(row => row.classList.remove("selected"));
+    document.querySelectorAll("#tableBody tr").forEach(row => {
+        if(row.children[1].innerText === selectedDate){
+            row.classList.add("selected");
+        }
+    });
+}
 
 function updateTimes(){
     const selectedDate = document.getElementById("date").value;
@@ -74,123 +73,91 @@ function updateTimes(){
         document.getElementById("iftar").innerText = dayInfo.iftar;
         updateProgress(dayInfo.day);
         startCountdown(dayInfo.iftar);
-    }else{
+        highlightSelectedRow(selectedDate);
+    } else {
         document.getElementById("sehri").innerText = "--:--";
         document.getElementById("iftar").innerText = "--:--";
         updateProgress(0);
-        document.getElementById("countdown").innerText =
-            "Select a date to see countdown";
+        document.getElementById("countdown").innerText = "Select a date to see countdown";
     }
 }
 
 
 function getDhakaTime() {
-    return new Date(
-        new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" })
-    );
+    return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }));
 }
 
+function selectTodayDate(){
+    const today = getDhakaTime().toISOString().split('T')[0];
+    document.getElementById("date").value = today;
+    updateTimes();
+}
+
+window.addEventListener("load", () => selectTodayDate());
 
 
 function updateClock(){
     const now = getDhakaTime();
-
     let hours = now.getHours();
     const minutes = String(now.getMinutes()).padStart(2,'0');
     const seconds = String(now.getSeconds()).padStart(2,'0');
-
-    let ampm = "AM";
-    if(hours >= 12) ampm = "PM";
-
-    hours = hours % 12;
-    if(hours === 0) hours = 12;
-
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
     hours = String(hours).padStart(2,'0');
-
-    document.getElementById("realClock").innerText =
-        `${hours}:${minutes}:${seconds} ${ampm} (BD Time)`;
+    document.getElementById("realClock").innerText = `${hours}:${minutes}:${seconds} ${ampm} (BD Time)`;
 }
-
 setInterval(updateClock, 1000);
 updateClock();
 
 
-
 let countdownInterval;
-
 function startCountdown(iftarTime){
     clearInterval(countdownInterval);
-
     countdownInterval = setInterval(()=>{
-
         const now = getDhakaTime();
         const today = now.toISOString().split('T')[0];
-
         const [time, modifier] = iftarTime.split(" ");
         let [hours, minutes] = time.split(":").map(Number);
-
         if(modifier === "PM" && hours !== 12) hours += 12;
         if(modifier === "AM" && hours === 12) hours = 0;
-
-        const target = new Date(
-            `${today}T${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:00`
-        );
-
+        const target = new Date(`${today}T${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:00`);
         const diff = target - now;
         const countdown = document.getElementById("countdown");
-
         if(diff > 0){
             const h = Math.floor(diff/1000/60/60);
             const m = Math.floor((diff/1000/60)%60);
             const s = Math.floor((diff/1000)%60);
-
             countdown.innerText = `${h}h ${m}m ${s}s remaining`;
         }else{
             countdown.innerText = "Iftar Time! 🌙";
         }
-
     }, 1000);
 }
 
 
-
 const canvas = document.getElementById('starsCanvas');
 const ctx = canvas.getContext('2d');
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
 let stars = [];
-
 for(let i=0;i<300;i++){
-    stars.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        r: Math.random()*1.5,
-        d: Math.random()*2
-    });
+    stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, d: Math.random()*2});
 }
-
 function drawStars(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = "white";
     ctx.beginPath();
-
     stars.forEach(s=>{
         ctx.moveTo(s.x, s.y);
         ctx.arc(s.x, s.y, s.r, 0, Math.PI*2, true);
     });
-
     ctx.fill();
-
     stars.forEach(s=>{
         s.y += s.d*0.2;
         if(s.y > canvas.height) s.y = 0;
     });
 }
-
 setInterval(drawStars, 50);
-
 
 
 function toggleMode(){
