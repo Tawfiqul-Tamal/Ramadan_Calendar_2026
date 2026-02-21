@@ -199,3 +199,28 @@ footer {
 .light-mode .clock {
     color: #333;
 }
+
+
+
+
+
+
+
+
+/* Ramadan Quote Section */
+.quote-card {
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.6;
+    transition: opacity 0.8s ease-in-out;
+}
+
+#ramadanQuote {
+    min-height: 60px;
+    padding: 10px;
+}
+
+/* Light mode adjustment */
+.light-mode .quote-card {
+    color: #444;
+}
