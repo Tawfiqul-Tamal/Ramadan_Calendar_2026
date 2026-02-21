@@ -175,7 +175,9 @@ const ramadanQuotes = [
     "“Whoever fasts Ramadan out of faith and hope for reward, his previous sins will be forgiven.” (Bukhari & Muslim)",
     "“The month of Ramadan is that in which was revealed the Qur'an.” (Surah Al-Baqarah 2:185)",
     "“Allah says: Fasting is for Me, and I will reward it.” (Hadith Qudsi)",
-    "“When Ramadan begins, the gates of Paradise are opened.” (Bukhari)"
+    "“When Ramadan begins, the gates of Paradise are opened.” (Bukhari)",
+    "“The best charity is that given in Ramadan.” (Tirmidhi)",
+    "“There are in Ramadan nights better than a thousand months.” (Qur'an 97:3)"
 ];
 
 let quoteIndex = 0;
