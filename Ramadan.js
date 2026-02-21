@@ -163,3 +163,33 @@ setInterval(drawStars, 50);
 function toggleMode(){
     document.body.classList.toggle("light-mode");
 }
+
+
+
+// ===============================
+// Ramadan Quotes Rotation Feature
+// ===============================
+
+const ramadanQuotes = [
+    "“Fasting is a shield; so when one of you is fasting, he should avoid obscene speech and ignorant behavior.” (Bukhari & Muslim)",
+    "“Whoever fasts Ramadan out of faith and hope for reward, his previous sins will be forgiven.” (Bukhari & Muslim)",
+    "“The month of Ramadan is that in which was revealed the Qur'an.” (Surah Al-Baqarah 2:185)",
+    "“Allah says: Fasting is for Me, and I will reward it.” (Hadith Qudsi)",
+    "“When Ramadan begins, the gates of Paradise are opened.” (Bukhari)"
+];
+
+let quoteIndex = 0;
+const quoteElement = document.getElementById("ramadanQuote");
+
+function changeQuote() {
+    quoteElement.style.opacity = 0;
+
+    setTimeout(() => {
+        quoteIndex = (quoteIndex + 1) % ramadanQuotes.length;
+        quoteElement.innerText = ramadanQuotes[quoteIndex];
+        quoteElement.style.opacity = 1;
+    }, 500);
+}
+
+// Change quote every 20 seconds
+setInterval(changeQuote, 20000);
